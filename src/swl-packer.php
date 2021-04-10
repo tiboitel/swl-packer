@@ -7,14 +7,6 @@ namespace SWLPacker;
 class SWLPacker
 {
 	/**
-	*
-	*/
-	public function		__construct()
-	{
-
-	}
-
-	/**
 	* Take a SWF file and package it as a SWL file.
 	* @return a binary string.
 	*/
@@ -25,9 +17,11 @@ class SWLPacker
 			$framerate = 24;
 			$class_count = 0;
 			$swl = "";
-
-			$swl = pack('ccIi', $header_offset, $version, $framerate,
-				$class_count);
+;
+			$swl .= strrev(pack('c', $header_offset));
+			$swl .= strrev(pack('c', $version));
+			$swl .= strrev(pack('I', $framerate));
+			$swl .= strrev(pack('i', $class_count));
 			if ($swl === false)
 				throw new \Exception("Unable to pack SWF file.");
 			$swl .= $swf;
